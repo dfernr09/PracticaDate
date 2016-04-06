@@ -1,16 +1,36 @@
 package es.unileon.prg.date;
-
-public class Date {
+class Date {
 	private int day;
 	private int month;
 	private int year;
 	
-	public Date(int day, int month, int year){
-		this.day=((day >= 1 && day <= 31) ? day : 0);
-		this.month=((month >= 1 && month <= 12) ? month : 0);
-		this.year=((year > 0) ? year : 0);
-		
+	public Date(int day, int month, int year)throws MyException{
+		StringBuffer excep = new StringBuffer();
+		if((day > 31) || (day < 1)){
+			excep.append("El dia no puede ser negativo ni mayor que 31");
+		}
+		if((month > 12) || (month < 1)){
+			excep.append("El dia no puede ser negativo ni mayor que 12");
+		}
+		if(year < 1){
+			excep.append("El año no puede ser negativo");
+		}
+		if(excep.length()!=0){
+			throw new MyException (excep.toString());
+			
+		}
+		else{
+			this.day=day;
+			this.month=month;
+			this.year=year;
+		}
 	}
+	public Date(){
+		this.day=0;
+		this.month=0;
+		this.day=0;
+	}
+	
 
 	public int getDay() {
 		return day;
@@ -103,85 +123,67 @@ public class Date {
 		}
 		return mes;
 	}
-	boolean checkMonthDay(){
+	int monthDay(){
+		int day=0;
+		switch(this.month){
+		case 1: 
+		case 3:
+		case 5:
+		case 7:
+		case 8:
+		case 10:
+		case 12:
+			day=31;
+			break;
+		case 4:
+		case 6:
+		case 9:
+		case 11:
+			day=30;
+			break;
+		case 2:
+			day=29;
+			break;
+			}
+		return day;
+		
+		
+	}
+	boolean CheckMonthDay(){
 		boolean checkDay=false;
 		switch(this.month){
 		case 1: 
-				if(this.day<=31)
-					checkDay=true;
-				else
-					checkDay=false;
-			break;
-		case 2: 
-				if(this.day<=29)
-					checkDay=true;
-				else
-					checkDay=false;
-			break;
 		case 3:
-			if(this.day<=31)
-				checkDay=true;
-			else
-				checkDay=false;
-			break;
-		case 4: 
-			if(this.day<=30)
-				checkDay=true;
-			else
-				checkDay=false;
-			break;
 		case 5:
-			if(this.day<=31)
-				checkDay=true;
-			else
-				checkDay=false;
-			break;
-		case 6:
-			if(this.day<=30)
-				checkDay=true;
-			else
-				checkDay=false;
-			break;
-		case 7: 
-			if(this.day<=31)
-				checkDay=true;
-			else
-				checkDay=false;
-			break;
+		case 7:
 		case 8:
-			if(this.day<=31)
-				checkDay=true;
-			else
-				checkDay=false;
-			break;
-		case 9: 
-			if(this.day<=30)
-				checkDay=true;
-			else
-				checkDay=false;
-			break;
-		case 10: 
-			if(this.day<=31)
-				checkDay=true;
-			else
-				checkDay=false;
-			break;
-		case 11: 
-			if(this.day<=30)
-				checkDay=true;
-			else
-				checkDay=false;
-			break;
+		case 10:
 		case 12:
 			if(this.day<=31)
 				checkDay=true;
 			else
 				checkDay=false;
 			break;
-	
-		}
+		case 4:
+		case 6:
+		case 9:
+		case 11:
+			if(this.day<=30)
+				checkDay=true;
+			else
+				checkDay=false;
+			break;
+		case 2:
+			if(this.day<=29)
+				checkDay=true;
+			else
+				checkDay=false;
+		
+			}
 		return checkDay;
 	}
+	
+	
 	String getEstacion(){
 		String estacion="";
 		switch(this.month){
@@ -209,12 +211,56 @@ public class Date {
 		
 		return estacion;	
 	}
-	int getMesesHastaFinAño(){
-		int i,cont=0;
-		for(i=this.month;i<12;i++){
-				cont++;
-			}
-		
-		return cont;
+	String getMesesHastaFinAño(){
+		Date aux = null;
+		try {
+			aux = new Date(4,3,2016);
+		} catch (MyException e) {
+			
+			e.getMessage();
+		}
+		StringBuffer monthsLeft = new StringBuffer();
+		for(int i=this.month+1;i<12;i++){
+			aux.setMonth(i);
+			monthsLeft.append(aux.getMonthName());
+		}
+		return monthsLeft.toString();
 	}
+	String mostrarFecha(){
+		return String.format("%d/%d/%d",this.day,this.month,this.year);
+		
+	}
+	String mostrarFechasHastaFinMes(){
+		Date aux = null;
+		try {
+			aux = new Date(4,2,2016);
+		} catch (MyException e) {
+			e.getMessage();
+		}
+		StringBuffer fechas = new StringBuffer();
+		
+			if(aux.monthDay()==31){
+				for(int i=this.day+1;i<=31;i++){
+				aux.setDay(i);
+				fechas.append(aux.mostrarFecha());
+				}
+			}
+			if(aux.monthDay()==30){
+				for(int i=this.day+1;i<=30;i++){
+					aux.setDay(i);
+					fechas.append(aux.mostrarFecha());
+				}
+			}
+			if(aux.monthDay()==29){
+				for(int i=this.day+1;i<=29;i++){
+					aux.setDay(i);
+					fechas.append(aux.mostrarFecha());
+				}
+			}
+				
+			
+		return fechas.toString();	
+	}		
 }
+
+
