@@ -71,7 +71,7 @@ class Date {
 		
 	}
 	
-	boolean isSameMonth(Date other){
+	public boolean isSameMonth(Date other){
 		boolean smMonth=true;
 		if(this.month==other.getMonth())
 			smMonth=true;
@@ -80,7 +80,7 @@ class Date {
 		return smMonth;
 		
 	}
-	boolean isSameDay(Date other){
+	public boolean isSameDay(Date other){
 		boolean smDay=true;
 		if(this.day==other.getDay())
 			smDay=true;
@@ -89,7 +89,7 @@ class Date {
 		return smDay;
 			
 	}
-	boolean isSame(Date other){
+	public boolean isSame(Date other){
 		boolean same=true;
 		if(this.year==other.getYear() && this.month==other.getMonth() && this.day==other.getDay())
 			same=true;
@@ -98,7 +98,7 @@ class Date {
 		return same;
 		
 	}
-	String getMonthName(){
+	public String getMonthName(){
 		String mes="";
 		switch(this.month){
 		case 1: mes="Enero";
@@ -129,7 +129,7 @@ class Date {
 		}
 		return mes;
 	}
-	int monthDay(){
+	private int monthDay(){
 		int day=0;
 		switch(this.month){
 		case 1: 
@@ -155,7 +155,7 @@ class Date {
 		
 		
 	}
-	boolean CheckMonthDay(){
+	public boolean CheckMonthDay(){
 		boolean checkDay=false;
 		switch(this.month){
 		case 1: 
@@ -190,7 +190,7 @@ class Date {
 	}
 	
 	
-	String getEstacion(){
+	public String getEstacion(){
 		String estacion="";
 		switch(this.month){
 		case 12:
@@ -217,7 +217,7 @@ class Date {
 		
 		return estacion;	
 	}
-	String getMesesHastaFinAño(){
+	public String getMesesHastaFinAño(){
 		Date aux = null;
 		aux = new Date(this);
 		StringBuffer monthsLeft = new StringBuffer();
@@ -227,11 +227,11 @@ class Date {
 		}
 		return monthsLeft.toString();
 	}
-	String mostrarFecha(){
+	public String mostrarFecha(){
 		return String.format("%d/%d/%d",this.day,this.month,this.year);
 		
 	}
-	String mostrarFechasHastaFinMes(){
+	public String mostrarFechasHastaFinMes(){
 		Date aux = null;
 		aux = new Date(this);
 		StringBuffer fechas = new StringBuffer();
@@ -259,7 +259,7 @@ class Date {
 		return fechas.toString();	
 	}	
 	
-	String getMesesMismoNumeroDias(){
+	public String getMesesMismoNumeroDias(){
 		Date aux = null;
 		aux = new Date(this);
 		StringBuffer meses = new StringBuffer();
@@ -281,7 +281,7 @@ class Date {
 		}
 		return meses.toString();
 	}
-	int getNumberOfDaysSinceFirstDay(){
+	public int getNumberOfDaysSinceFirstDay(){
 		int cont=0;
 		Date aux = null;
 		aux = new Date();
@@ -292,5 +292,64 @@ class Date {
 		}
 		return cont;
 	}
+	public int getNumberOfAttempsDoWhile(){
+		int randomDay=0;
+		int randomMonth=0;
+		int attemps=0;
+		do{
+		 randomDay = (int) ((Math.random() * 31)+ 1);
+		 randomMonth = (int) ((Math.random()* 12)+ 1);
+		 attemps++;
+		}while(randomDay != this.day && randomMonth != this.month);
+		return attemps;
+	}
+	public int getNumberOfAttempsWhile(){
+		int randomDay=0;
+		int randomMonth=0;
+		int attemps=0;
+		while(randomDay != this.day && randomMonth != this.month){
+			 randomDay = (int) ((Math.random() * 31)+ 1);
+			 randomMonth = (int) ((Math.random()* 12)+ 1);
+			 attemps++;
+		}
+		return attemps;
+	}
+	public String getDayName(){
+		Date aux = null;
+		aux = new Date();
+		String dia="";
+			for(int i=aux.getDay();i<=aux.getMonth();i++){
+				if(aux.getNumberOfDaysSinceFirstDay()==7){
+					dia="Lunes";
+				}
+				if(aux.getNumberOfDaysSinceFirstDay()==6){
+					dia="Domingo";
+				}
+				if(aux.getNumberOfDaysSinceFirstDay()==5){
+					dia="Sabado";
+				}
+				if(aux.getNumberOfDaysSinceFirstDay()==4){
+					dia="Viernes";
+				}
+				if(aux.getNumberOfDaysSinceFirstDay()==3){
+					dia="Jueves";
+				}
+				if(aux.getNumberOfDaysSinceFirstDay()==2){
+					dia="Miercoles";
+				}
+				if(aux.getNumberOfDaysSinceFirstDay()==1){
+					dia="Martes";
+				}
+			}
+			return dia;
+	}
+	public String toString(){
+		Date aux = null;
+		aux = new Date(this);
+		return aux.mostrarFecha();
+		
+	}
 }
+
+
 
