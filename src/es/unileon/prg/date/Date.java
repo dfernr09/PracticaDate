@@ -1,4 +1,5 @@
 package es.unileon.prg.date;
+
 class Date {
 	private int day;
 	private int month;
@@ -7,13 +8,13 @@ class Date {
 	public Date(int day, int month, int year)throws MyException{
 		StringBuffer excep = new StringBuffer();
 		if((day > 31) || (day < 1)){
-			excep.append("El dia no puede ser negativo ni mayor que 31");
+			excep.append("El dia no puede ser negativo ni mayor que 31, "+day+" es un dia no permitido");
 		}
 		if((month > 12) || (month < 1)){
-			excep.append("El dia no puede ser negativo ni mayor que 12");
+			excep.append("El dia no puede ser negativo ni mayor que 12, "+month+" es un mes no permitido");
 		}
 		if(year < 1){
-			excep.append("El año no puede ser negativo");
+			excep.append("El año no puede ser negativo, "+year+" es un año no permitido");
 		}
 		if(excep.length()!=0){
 			throw new MyException (excep.toString());
@@ -26,12 +27,17 @@ class Date {
 		}
 	}
 	public Date(){
-		this.day=0;
-		this.month=0;
-		this.day=0;
+		this.day=1;
+		this.month=1;
+		this.year=2016;
 	}
 	
 
+	public Date(Date date) {
+		this.day=this.getDay();
+		this.month=this.getMonth();
+		this.year=this.getYear();
+	}
 	public int getDay() {
 		return day;
 	}
@@ -190,7 +196,7 @@ class Date {
 		case 12:
 		case 1:
 		case 2:
-				estacion="Estas en invieron";
+				estacion="Estas en invierno";
 				break;
 		case 3:
 		case 4:
@@ -213,14 +219,9 @@ class Date {
 	}
 	String getMesesHastaFinAño(){
 		Date aux = null;
-		try {
-			aux = new Date(4,3,2016);
-		} catch (MyException e) {
-			
-			e.getMessage();
-		}
+		aux = new Date(this);
 		StringBuffer monthsLeft = new StringBuffer();
-		for(int i=this.month+1;i<12;i++){
+		for(int i=this.month+1;i<=12;i++){
 			aux.setMonth(i);
 			monthsLeft.append(aux.getMonthName());
 		}
@@ -232,11 +233,7 @@ class Date {
 	}
 	String mostrarFechasHastaFinMes(){
 		Date aux = null;
-		try {
-			aux = new Date(4,2,2016);
-		} catch (MyException e) {
-			e.getMessage();
-		}
+		aux = new Date(this);
 		StringBuffer fechas = new StringBuffer();
 		
 			if(aux.monthDay()==31){
@@ -260,7 +257,40 @@ class Date {
 				
 			
 		return fechas.toString();	
-	}		
+	}	
+	
+	String getMesesMismoNumeroDias(){
+		Date aux = null;
+		aux = new Date(this);
+		StringBuffer meses = new StringBuffer();
+		
+		if(aux.monthDay()==31){
+			for(int i=this.month+1;i<=7;i++){
+				aux.setMonth(i);
+				meses.append(aux.getMonthName());
+			}
+		}
+		if(aux.monthDay()==30){
+			for(int i=this.month+1;i<=4;i++){
+				aux.setMonth(i);
+				meses.append(aux.getMonthName());
+			}
+		}
+		if(aux.monthDay()==29){
+			meses.append(aux.getMonthName());
+		}
+		return meses.toString();
+	}
+	int getNumberOfDaysSinceFirstDay(){
+		int cont=0;
+		Date aux = null;
+		aux = new Date();
+		for(int i=aux.getMonth();i<=this.month;i++){
+			for(int j=aux.getDay();j<=aux.monthDay();j++){
+				cont++;
+			}
+		}
+		return cont;
+	}
 }
-
 
